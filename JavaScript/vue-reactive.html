@@ -15,12 +15,28 @@
         obj: {
           age: 18,
         },
+        array: [1, 2, 3],
       };
+
+      function reactiveArray(target) {
+        let arrayPrototype = Array.prototype;
+        let arrMethods = Object.create(arrayPrototype);
+
+        arrMethods.push = function (...args) {
+          arrayPrototype.push.call(this, ...args);
+          render();
+        };
+        target.__proto__ = arrMethods;
+      }
 
       //   监听数据
       function defineReactive(target) {
         for (let key in target) {
           let value = target[key];
+          if (value instanceof Array) {
+            reactiveArray(value);
+            continue;
+          }
           if (value instanceof Object) {
             defineReactive(value);
             continue;
@@ -38,7 +54,6 @@
               return value;
             },
             set(newVal) {
-              console.log("set....");
               value = newVal;
               deps.forEach((fn) => fn());
             },
@@ -50,6 +65,7 @@
         console.log("render");
         app.innerHTML = `name: ${state.name}
           age: ${state.obj.age}
+          arr: ${state.array}
           `;
       };
 
@@ -72,6 +88,7 @@
       }, 2000);
       setInterval(() => {
         state.obj.age++;
+        state.array.push(state.obj.age);
       }, 1000);
     </script>
   </body>
