@@ -86,7 +86,10 @@
       setTimeout(() => {
         state.name = "LC";
       }, 2000);
-      setInterval(() => {
+      let timer = setInterval(() => {
+        if (state.obj.age > 50) {
+          clearInterval(timer);
+        }
         state.obj.age++;
         state.array.push(state.obj.age);
       }, 1000);
