@@ -88,6 +88,29 @@ CPromise.prototype.catch = function (rejectFunc) {
   return this.then(null, rejectFunc);
 };
 
+CPromise.all = function (promiseArray) {
+  let index = 0,
+    values = [];
+
+  return new CPromise((resolve, reject) => {
+    for (let i = 0; i < promiseArray.length; i++) {
+      let item = promiseArray[i];
+      item instanceof CPromise ? null : (item = CPromise.resolve(item));
+      item
+        .then((value) => {
+          index++;
+          values[i] = value;
+          if (index === promiseArray.length) {
+            resolve(values);
+          }
+        })
+        .catch((reason) => {
+          reject(reason);
+        });
+    }
+  });
+};
+
 // 先调用原生promise
 const p = new CPromise((resolve, reject) => {
   resolve(1);
@@ -136,26 +159,48 @@ const p = new CPromise((resolve, reject) => {
 //   console.log("ok2", value);
 // });
 
-// catch
-p.then((res) => {
-  console.log(res);
-}).catch((reason) => {
-  console.log(reason);
-});
+// // catch
+// p.then((res) => {
+//   console.log(res);
+// }).catch((reason) => {
+//   console.log(reason);
+// });
 
-// // promise.all，并发请求，串行请求
-// function asyncFunc1(params) {
-//   setTimeout(() => {
-//     Promise.resolve();
-//   }, 1000);
-// }
-// function asyncFunc2(params) {
-//   setTimeout(() => {
-//     Promise.reject();
-//   }, 2000);
-// }
-// function asyncFunc3(params) {
-//   setTimeout(() => {
-//     Promise.resolve();
-//   }, 3000);
-// }
+// promise.all，并发请求，串行请求
+function asyncFunc1() {
+  return new CPromise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 1000);
+  });
+}
+function asyncFunc2() {
+  return new CPromise((resolve, reject) => {
+    setTimeout(() => {
+      reject(2);
+    }, 2000);
+  });
+}
+function asyncFunc3() {
+  return new CPromise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(3);
+    }, 3000);
+  });
+}
+CPromise.all([asyncFunc1(), asyncFunc2(), asyncFunc3()]).then(
+  (value) => {
+    console.log(value);
+  },
+  (reason) => {
+    console.log(reason);
+  }
+);
+CPromise.all([asyncFunc1(), asyncFunc3()]).then(
+  (value) => {
+    console.log(value);
+  },
+  (reason) => {
+    console.log(reason);
+  }
+);
