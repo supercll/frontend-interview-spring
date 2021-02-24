@@ -10,3 +10,4 @@
 7. [**手写reactive-vue响应式函数**](https://github.com/supercll/frontend-interview-spring/blob/main/JavaScript/vue-reactive.html)
 8. [**手写图片懒加载函数**](https://github.com/supercll/frontend-interview-spring/blob/main/JavaScript/lazyLoad.html)
 9. [**手写Promise**](https://github.com/supercll/frontend-interview-spring/blob/main/JavaScript/promise.js)
+10. [**手写寄生组合式继承**](https://github.com/supercll/frontend-interview-spring/blob/main/JavaScript/inherit.js)
