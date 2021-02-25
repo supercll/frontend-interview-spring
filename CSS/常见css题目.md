@@ -12,7 +12,7 @@
 什么是BFC
 > 翻译为block formatting context 块级格式化上下文
 > 
-> 是一个独立的渲染区域，让处于BFC内部的元素与外界隔离，使定互不影响
+> 是一个独立的渲染区域，让处于BFC内部的元素与外界隔离，内外元素定位互不影响
 
  BFC的产生条件？
 1. float不为none
@@ -70,7 +70,7 @@ BFC的作用
 2. 用margin负值，盒子宽高的一半
 
 
-文字水平/垂直居中
+文字垂直居中(不是绝对居中)
 ```css
 .context {
     height: 20px;
@@ -118,8 +118,8 @@ grid类似
 ## 说说盒子模型
 - 标准盒模型：box-sizing: content-box;
   - 设置的宽高只是content内容的宽高
-  - padding和margin的设置会让盒子变大
+  - padding,border和margin的设置会让盒子变大
 - 怪异盒模型：border-box
   - 设置的宽高是盒子的真实宽高
-  - padding的设置会压缩content内容区域
+  - padding+border的设置会压缩content内容区域
   - padding大于宽高时以padding为准
