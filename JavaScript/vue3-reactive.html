@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function observe(data) {
+        if (typeof data !== "object" || data == null) {
+          return data;
+        }
+        const p = new Proxy(data, {
+          get(target, key, receiver) {
+            console.log(`get ${key}`);
+            const result = Reflect.get(data, key, receiver);
+            // 当获取值的是时候 再设置响应式
+            return observe(result);
+          },
+          set(target, key, val, receiver) {
+            console.log(`set ${key}`);
+            const result = Reflect.set(target, key, val, receiver);
+            return result;
+          },
+        });
+        return p;
+      }
+
+      const data = {
+        username: "lc",
+        profile: {
+          city: "cd",
+          a: {
+            b: 12,
+            c: {
+              d: 23,
+            },
+          },
+        },
+      };
+
+      const p1 = observe(data);
+      console.log(p1);
+    </script>
+  </body>
+</html>
