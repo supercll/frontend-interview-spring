@@ -9,7 +9,6 @@
   <body>
     <h2 id="app"></h2>
     <script>
-      let active = null;
       const state = {
         name: "lc",
         obj: {
@@ -17,6 +16,31 @@
         },
         array: [1, 2, 3],
       };
+
+      class Watcher {
+        constructor() {
+          Dep.target = this;
+          this.active = null;
+        }
+
+        run(fn) {
+          this.active = fn;
+          this.active();
+          this.active = null;
+        }
+      }
+
+      class Dep {
+        constructor() {
+          this.subs = [];
+        }
+        addSub(sub) {
+          this.subs.push(sub);
+        }
+        notify() {
+          this.subs.forEach(sub => sub());
+        }
+      }
 
       function reactiveArray(target) {
         let arrayPrototype = Array.prototype;
@@ -42,20 +66,18 @@
             continue;
           }
 
-          //   第二步：给每个属性绑定监听器
-          //   第三步，考虑如何将事件与属性绑定起来
-          let deps = []; // 设置一个收集齐收集每个属性挂载的事件
+          let deps = new Dep(); // 设置一个收集齐收集每个属性挂载的事件
           Object.defineProperty(target, key, {
             get() {
-              if (active) {
+              if (Dep.target.active) {
                 //   如果事件的执行伴随着属性的获取，那么绑定这个事件到属性上
-                deps.push(active);
+                deps.addSub(Dep.target.active);
               }
               return value;
             },
             set(newVal) {
               value = newVal;
-              deps.forEach((fn) => fn());
+              deps.notify();
             },
           });
         }
@@ -73,15 +95,12 @@
         console.log(state);
       };
 
-      const watcher = (fn) => {
-        //   暂存事件
-        active = fn;
-        active();
-        active = null;
-      };
       defineReactive(state);
-      watcher(render);
-      watcher(log);
+
+      // 事件订阅
+      const watcher = new Watcher();
+      watcher.run(render);
+      watcher.run(log);
 
       setTimeout(() => {
         state.name = "LC";
