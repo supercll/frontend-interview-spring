@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .box {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .box .layout {
+        width: 700px;
+        height: 600px;
+        margin: 20px;
+        border: black solid 1px;
+      }
+      .box .layout h2 {
+        text-align: center;
+        margin: 0;
+      }
+
+      .two_bfc aside {
+        width: 300px;
+        background-color: aqua;
+        min-height: 300px;
+        float: left;
+      }
+      .two_bfc .main {
+        background-color: orange;
+        min-height: 500px;
+        overflow: hidden;
+      }
+      .two-margin aside {
+        width: 300px;
+        background-color: aqua;
+        min-height: 300px;
+        float: left;
+      }
+      .two-margin .main {
+        background-color: orange;
+        min-height: 500px;
+        margin-left: 300px;
+      }
+      .two-position {
+        position: relative;
+      }
+      .two-position h2 {
+        position: absolute;
+      }
+      .two-position aside {
+        width: 30%;
+        background-color: aqua;
+        min-height: 300px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .two-position .main {
+        width: 70%;
+        background-color: orange;
+        min-height: 500px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      .grail .container {
+        padding: 0 100px;
+      }
+      .grail .left,
+      .grail .main,
+      .grail .right {
+        position: relative;
+        float: left;
+        height: 500px;
+      }
+      .grail .left {
+        background: red;
+        width: 100px;
+        left: -100px;
+        margin-left: -100%;
+      }
+      .grail .right {
+        background: black;
+        width: 100px;
+        margin-right: -100px;
+      }
+      .grail .main {
+        background: orange;
+        width: 100%;
+      }
+
+      .fly .left {
+        background-color: thistle;
+      }
+      .fly .main {
+        background: #999;
+      }
+      .fly .right {
+        background-color: violet;
+      }
+      /* 双飞翼布局重点 */
+      .fly .left,
+      .fly .right,
+      .fly .main {
+        float: left;
+        height: 500px;
+      }
+      .fly .main {
+        width: 100%;
+      }
+      .fly .content {
+        /* margin: 0 200px; */
+        padding: 0 200px;
+      }
+      .fly .left {
+        width: 200px;
+        margin-left: -100%;
+      }
+      .fly .right {
+        width: 200px;
+        margin-left: -200px;
+      }
+
+      .flex {
+        display: flex;
+      }
+      .flex aside {
+        width: 100px;
+        height: 500px;
+        background-color: aqua;
+        min-height: 100px;
+      }
+
+      .flex .main {
+        height: 500px;
+        background-color: orange;
+        flex: 1;
+      }
+
+      .float .left,
+      .float .right {
+        width: 200px;
+        height: 500px;
+        background-color: aqua;
+      }
+      .float .left {
+        float: left;
+      }
+
+      .float .right {
+        float: right;
+      }
+
+      .float .main {
+        height: 500px;
+        width: 500px;
+        background-color: orange;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <section class="layout two_bfc">
+        <h2>两栏布局-BFC</h2>
+        <aside></aside>
+        <div>
+          <div class="main"></div>
+        </div>
+      </section>
+      <section class="layout two-margin">
+        <h2>两栏布局-margin</h2>
+        <aside></aside>
+        <div class="main"></div>
+      </section>
+      <section class="layout">
+        <h2>两栏布局-position</h2>
+        <div class="two-position">
+          <aside></aside>
+          <div class="main"></div>
+        </div>
+      </section>
+      <section class="layout">
+        <h2>三栏布局-float</h2>
+        <div class="float">
+          <aside class="left"></aside>
+          <aside class="right"></aside>
+          <div class="main">main</div>
+        </div>
+      </section>
+      <section class="layout grail">
+        <h2>圣杯布局</h2>
+        <div class="container">
+          <div class="main"></div>
+          <aside class="left"></aside>
+          <aside class="right"></aside>
+        </div>
+      </section>
+      <section class="layout fly">
+        <h2>双飞翼布局</h2>
+        <div class="main"><div class="content">中心区</div></div>
+        <div class="left">left</div>
+        <div class="right">right</div>
+      </section>
+      <section class="layout">
+        <h2>三栏布局-flex</h2>
+        <div class="flex">
+          <aside></aside>
+          <div class="main"></div>
+          <aside></aside>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
