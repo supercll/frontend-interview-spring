@@ -86,8 +86,10 @@
       }
 
       .float .main {
+        box-sizing: border-box;
         height: 500px;
         width: 500px;
+        padding: 0 200px;
         background-color: orange;
       }
     </style>
@@ -195,7 +197,10 @@
         <div class="float">
           <aside class="left"></aside>
           <aside class="right"></aside>
-          <div class="main">main</div>
+          <div class="main">
+            main
+            <div></div>
+          </div>
         </div>
       </section>
       <section class="layout grail">
