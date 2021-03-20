@@ -70,8 +70,24 @@ const prevOrder = node => {
   }
 };
 
-prevOrder(binaryTree);
+// 中序遍历：思路 维护栈 + 指针
+const inOrder = node => {
+  const stk = [];
+  let curr = node;
 
-// inOrder(binaryTree);
+  while (curr || stk.length) {
+    while (curr) {
+      stk.push(curr);
+      curr = curr.left;
+    }
+    const last = stk.pop();
+    console.log(last.val);
+    curr = last.right;
+  }
+};
+
+// prevOrder(binaryTree);
+
+inOrder(binaryTree);
 
 // postOrder(binaryTree);
