@@ -26,30 +26,30 @@ Array.prototype.quickSort = function quickSort() {
 
 Array.prototype.mergeSort = function () {
   function merge(left, right) {
-    let result = [];
+    const res = [];
     while (left.length > 0 && right.length > 0) {
-      left[0] <= right[0] ? result.push(left.shift()) : result.push(right.shift());
+      left[0] < right[0] ? res.push(left.shift()) : res.push(right.shift());
     }
-
     while (left.length > 0) {
-      result.push(left.shift());
+      res.push(left.shift());
+    }
+    while (right.length > 0) {
+      res.push(right.shift());
     }
 
-    while (right.length > 0) {
-      result.push(right.shift());
-    }
-    return result;
+    return res;
   }
   function mergeSort(arr) {
     if (arr.length <= 1) return arr;
+    const midIndex = Math.floor(arr.length / 2);
+    const left = arr.slice(0, midIndex);
+    const right = arr.slice(midIndex);
 
-    let midIndex = Math.floor(arr.length / 2);
-    let left = arr.slice(0, midIndex);
-    let right = arr.slice(midIndex);
     return merge(mergeSort(left), mergeSort(right));
   }
   return mergeSort(this);
 };
+
 let arr = [1, 7, 2, 6, 0, 999];
 
 console.log(arr.quickSort());
