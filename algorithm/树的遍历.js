@@ -29,8 +29,7 @@ const binaryTree = {
 };
 
 /* 
-递归版树的遍历
-*/
+// 递归版树的遍历
 
 // 先序遍历
 const prevOrder = node => {
@@ -39,7 +38,6 @@ const prevOrder = node => {
   prevOrder(node.left);
   prevOrder(node.right);
 };
-// prevOrder(binaryTree);
 // 中序遍历：左中右
 const inOrder = node => {
   if (!node) return;
@@ -47,7 +45,6 @@ const inOrder = node => {
   console.log(node.val);
   inOrder(node.right);
 };
-// inOrder(binaryTree);
 
 // 后序遍历：左右中
 const postOrder = node => {
@@ -56,4 +53,25 @@ const postOrder = node => {
   postOrder(node.right);
   console.log(node.val);
 };
-postOrder(binaryTree);
+*/
+
+/* 
+非递归版：
+基本思路：维护栈
+*/
+// 先序遍历
+const prevOrder = node => {
+  const stk = [node];
+  while (stk.length > 0) {
+    const curr = stk.pop();
+    console.log(curr.val);
+    if (curr.right) stk.push(curr.right);
+    if (curr.left) stk.push(curr.left);
+  }
+};
+
+prevOrder(binaryTree);
+
+// inOrder(binaryTree);
+
+// postOrder(binaryTree);
