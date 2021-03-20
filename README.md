@@ -4,7 +4,7 @@
 1. [**常规HTML问题**](https://github.com/supercll/frontend-interview-spring/blob/main/HTML/常见HTML题目.md)
 ## CSS篇
 1. [**常规css问题**](https://github.com/supercll/frontend-interview-spring/blob/main/CSS/常见css题目.md)
-2. [**常见页面布局**](https://github.com/supercll/frontend-interview-spring/blob/main/HTML/layout.html)
+2. [**常见页面布局**](https://github.com/supercll/frontend-interview-spring/blob/main/CSS/layout.html)
 ## JavaScript篇
 1. [**手写new**](https://github.com/supercll/frontend-interview-spring/blob/main/JavaScript/_new.js)
 2. [**手写防抖节流函数**](https://github.com/supercll/frontend-interview-spring/blob/main/JavaScript/throttle-debounce.js)
