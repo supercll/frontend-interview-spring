@@ -18,6 +18,39 @@ Array.prototype.quickSort = function quickSort() {
   }
   return quickSort.call(left).concat(midVal, quickSort.call(right));
 };
+/* 
+归并排序
+原理：分治
+1. 与快排不同的是，快排是在分的时候排序，而归并排序是在归的时候排序
+*/
+
+Array.prototype.mergeSort = function () {
+  function merge(left, right) {
+    let result = [];
+    while (left.length > 0 && right.length > 0) {
+      left[0] <= right[0] ? result.push(left.shift()) : result.push(right.shift());
+    }
+
+    while (left.length > 0) {
+      result.push(left.shift());
+    }
+
+    while (right.length > 0) {
+      result.push(right.shift());
+    }
+    return result;
+  }
+  function mergeSort(arr) {
+    if (arr.length <= 1) return arr;
+
+    let midIndex = Math.floor(arr.length / 2);
+    let left = arr.slice(0, midIndex);
+    let right = arr.slice(midIndex);
+    return merge(mergeSort(left), mergeSort(right));
+  }
+  return mergeSort(this);
+};
 let arr = [1, 7, 2, 6, 0, 999];
 
 console.log(arr.quickSort());
+console.log(arr.mergeSort());
