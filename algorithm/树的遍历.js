@@ -86,8 +86,26 @@ const inOrder = node => {
   }
 };
 
+// 后续遍历：思路：维护两个栈，一个入栈保存顺序，一个出栈操作
+// 因为是左右中，那么入栈需要按照中右左的顺序入栈
+const postOrder = node => {
+  const stk = [node];
+  const outStk = [];
+
+  while (stk.length) {
+    const top = stk.pop();
+    outStk.push(top);
+    top.left && stk.push(top.left);
+    top.right && stk.push(top.right);
+  }
+
+  while (outStk.length) {
+    console.log(outStk.pop().val);
+  }
+};
+
 // prevOrder(binaryTree);
 
-inOrder(binaryTree);
+// inOrder(binaryTree);
 
-// postOrder(binaryTree);
+postOrder(binaryTree);
