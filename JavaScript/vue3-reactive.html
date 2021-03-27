@@ -8,41 +8,91 @@
   </head>
   <body>
     <script>
-      function observe(data) {
-        if (typeof data !== "object" || data == null) {
-          return data;
+      class Watcher {
+        constructor() {
+          Dep.target = this;
         }
-        const p = new Proxy(data, {
-          get(target, key, receiver) {
-            console.log(`get ${key}`);
-            const result = Reflect.get(data, key, receiver);
-            // 当获取值的是时候 再设置响应式
-            return observe(result);
-          },
-          set(target, key, val, receiver) {
-            console.log(`set ${key}`);
-            const result = Reflect.set(target, key, val, receiver);
-            return result;
-          },
-        });
-        return p;
+
+        effect(fn) {
+          this.active = fn;
+          this.active();
+          this.active = null;
+        }
+      }
+
+      class Dep {
+        constructor() {
+          this.targetMap = new WeakMap();
+          // this.deps = [];
+        }
+
+        addSub(target, key, sub) {
+          let depsMap = this.targetMap.get(target);
+          if (!depsMap) {
+            depsMap = new Map();
+            this.targetMap.set(target, depsMap);
+          }
+          let deps = depsMap.get(key);
+          if (!deps) {
+            deps = new Set();
+            depsMap.set(key, deps);
+          }
+          deps.add(sub);
+          console.log(this.targetMap);
+        }
+        notify(target, key) {
+          this.targetMap
+            .get(target)
+            .get(key)
+            .forEach(sub => sub());
+        }
+      }
+      function defineReactive(data) {
+        const deps = new Dep();
+        function observer(data) {
+          if (!(data instanceof Object)) {
+            return data;
+          }
+          const observed = new Proxy(data, {
+            get(target, key, receiver) {
+              console.log(`get ${key}: ${target[key]}`);
+              if (Dep.target.active) {
+                deps.addSub(target, key, Dep.target.active);
+              }
+              const ret = Reflect.get(data, key, receiver);
+              console.log(deps.depsMap);
+              return observer(ret);
+            },
+            set(target, key, val, receiver) {
+              console.log(`set ${key}: ${val}`);
+              const ret = Reflect.set(target, key, val, receiver);
+              deps.notify(target, key);
+              return ret;
+            },
+          });
+          return observed;
+        }
+        return observer(data);
       }
 
       const data = {
         username: "lc",
-        profile: {
-          city: "cd",
-          a: {
-            b: 12,
-            c: {
-              d: 23,
-            },
-          },
+        private: {
+          age: 18,
         },
       };
 
-      const p1 = observe(data);
-      console.log(p1);
+      const p1 = defineReactive(data);
+
+      const render = () => {
+        document.body.innerText = p1.username + p1.private.age;
+      };
+      const watcher = new Watcher();
+      watcher.effect(render);
+
+      // setInterval(() => {
+      //   p1.profile.a.age++;
+      // }, 1000);
     </script>
   </body>
 </html>
