@@ -1,5 +1,5 @@
 # frontend-interview-spring
-手写HTML/CSS/JavaScript面试题，备战2021春招
+手写HTML/CSS/JavaScript/框架代码&知识点
 ## HTML篇
 1. [**常规HTML问题**](https://github.com/supercll/frontend-interview-spring/blob/main/HTML/常见HTML题目.md)
 ## CSS篇
